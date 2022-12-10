@@ -48,10 +48,10 @@ export const speak = async (isGoogleSpeech, language, text, setReading) => {
 export const openAIRequest = async (prompt, isModeQA, setRequestInProgress) => {
 
     if (!OPEN_AI_API_KEY) {
-        console.error("OPEN_AI_API_KEY is ", OPEN_AI_API_KEY)
+        console.error("OPEN_AI_API_KEY not found! ", OPEN_AI_API_KEY)
         return
     } else {
-        console.log("OPEN_AI_API_KEY is ", OPEN_AI_API_KEY)
+        console.log("OPEN_AI_API_KEY found: ", OPEN_AI_API_KEY)
     }
 
 
@@ -69,31 +69,35 @@ export const openAIRequest = async (prompt, isModeQA, setRequestInProgress) => {
     request['prompt'] = prompt;
 
     try {
+        const requestJson = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+OPEN_AI_API_KEY
+            },
+            body: JSON.stringify(request),
+        }
+
+        console.log("requestJson: ", requestJson)
 
         setRequestInProgress(true);
-        let response = await fetch(OPEN_AI_URL,
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+OPEN_AI_API_KEY
-                },
-                body: JSON.stringify(request),
-            }
-        );
+        let response = await fetch(OPEN_AI_URL, requestJson );
 
         setRequestInProgress(false);
 
         let responseJson = await response.json();
+        if (responseJson.error && responseJson.error.message) {
+            console.error(responseJson.error.message)
+            console.log("responseJson: ", responseJson.error)
+        }
+
         const reply = responseJson.choices && responseJson.choices.length > 0 ? responseJson.choices[0].text : ''
 
         return {
             reply: reply ? reply.trim() : '',
             jsonTxt: JSON.stringify(responseJson['choices'])
         }
-
-
     } catch (error) {
         console.error(error);
         setRequestInProgress(false);
