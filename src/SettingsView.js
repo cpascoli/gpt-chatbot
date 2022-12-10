@@ -84,8 +84,6 @@ const SettingsView = (props) => {
     };
 
     const nextVoice = async () => {
-        console.log("next")
-
        const voices = isItalian() ? voicesIT : voicesEN
        let selVoice = voices[0]
 
@@ -106,8 +104,6 @@ const SettingsView = (props) => {
     };
 
     const previousVoice = async () => {
-        console.log("prev")
-
         const voices = isItalian() ? voicesIT : voicesEN
         let selVoice = voices[voices.length-1]
 
@@ -128,15 +124,12 @@ const SettingsView = (props) => {
 
 
     const playVoice = async () => {
-        console.log("play - voice: ", selectedVoice.language, selectedVoice.name, selectedVoice.id)
-
         const sampleText = isItalian() ? sampleTextIT : sampleTextEN
         await speak(isGoogleSpeech, selectedVoice.language, sampleText, setReading )
        
     }
 
     const stopVoice  = async () => {
-        console.log("stop")
         await stopSpeaking(isGoogleSpeech, setReading )
     }
 

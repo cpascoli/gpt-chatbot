@@ -44,9 +44,6 @@ const App = () => {
 
 
     const setAndStoreSelectedVoice = (voice) => {
-
-        console.log(">>> setAndStoreSelectedVoice: ", voice)
-
         Settings.set({ voice: voice });
         setSelectedVoice(voice);
     }
@@ -54,27 +51,20 @@ const App = () => {
     const setAndStoreChatMode = (isModeQA) => {
         Settings.set({ mode: isModeQA });
         setModeQA(isModeQA);
-
-        console.log("setAndStoreChatMode: " , isModeQA, "==>", Settings.get("mode"), typeof Settings.get("mode"))
     }
 
     const setAndStoreGoogleSpeech = (isGoogleSpeech) => {
         Settings.set({ googleSpeech: isGoogleSpeech });
         setGoogleSpeech(isGoogleSpeech);
-        console.log("setAndStoreGoogleSpeech: " , isGoogleSpeech, "==>", Settings.get("googleSpeech"), typeof Settings.get("googleSpeech"))
     }
 
     const updateSpeechRate = async (speechRate) => {
-        console.log("updateSpeechRate: " , speechRate, typeof Settings.get("speechRate"))
-
         await Tts.setDefaultRate(speechRate);
         Settings.set({ speechRate: speechRate });
         setSpeechRate(speechRate);
     }
  
     const updateSpeechPitch = async (speechPitch) => {
-        console.log("speechPitch: " , speechPitch, typeof Settings.get("speechPitch"))
-
         await Tts.setDefaultPitch(speechPitch);
         Settings.set({ speechPitch: speechPitch });
         setSpeechPitch(speechPitch);

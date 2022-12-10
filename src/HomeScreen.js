@@ -99,7 +99,6 @@ export const HomeScreen = () => {
 
 
     useEffect(() => {
-        console.log(">>>> useEffect ",speechRate, speechPitch, selectedVoice.id, selectedVoice.language, selectedVoice.name)
         Tts.setDefaultRate(speechRate);
         Tts.setDefaultPitch(speechPitch);
         initTts({
@@ -111,29 +110,22 @@ export const HomeScreen = () => {
 
 
     const initTts = async (selectedVoice) => {
-
-        console.log("*** initTts", selectedVoice)
         // const voices = await Tts.voices();
         // const availableVoices = voices.filter((v) => !v.networkConnectionRequired && !v.notInstalled)
         //     .map((v) => {
         //         return { id: v.id, name: v.name, language: v.language };
         //     })
         //     .filter(voice => voice.language.startsWith('it') ||  voice.language.startsWith('en'));
-    
-        // console.log(">>> availableVoices", availableVoices);
 
-        // let enVoice = availableVoices.find(it => it.language === 'en-AU');  // Karen
-        // let itVoice = availableVoices.find(it => it.language === 'it-IT');  // Alice
+ 
         if (selectedVoice && selectedVoice.language && selectedVoice.id) {
             try {
                 await Tts.setDefaultLanguage(selectedVoice.language);
                 await Tts.setDefaultVoice(selectedVoice.id);
-
-                console.log(`>>> initialized `, selectedVoice);
             } catch (err) {
                 //Samsung S9 has always this error:
                 //"Language is not supported"
-                console.log(`setDefaultLanguage error `, err);
+                console.warn(`setDefaultLanguage error `, err);
             }
             // setVoices(availableVoices);
             // setSelectedVoice(voice);
@@ -144,24 +136,13 @@ export const HomeScreen = () => {
     };
 
 
-
-    //// OPEN API - API CALL
-
-
-
-    /// Button Actions
-
     const readLastReply = async () => {
         if (isReading) {
-            console.log("STOP pressed")
             stopSpeaking(isGoogleSpeech, setReading)
-            // setReading(false)
         } else {
-            console.log("READ pressed")
             await speak(isGoogleSpeech, selectedVoice.language, lastReplyText, setReading)
         }
     };
-
 
 
     const deleteText = () => {
@@ -170,7 +151,6 @@ export const HomeScreen = () => {
         setJsonResponse('')
         setLastReplyText('')
     };
-
 
 
     const sendText = async (isModeQA) => {
@@ -208,7 +188,7 @@ export const HomeScreen = () => {
         } catch (err) {
             // Samsung S9 has always this error: 
             // "Language is not supported"
-            console.log(`setDefaultLanguage error `, err);
+            console.warn(`setDefaultLanguage error `, err);
         }
         await Tts.setDefaultVoice(voice.id);
         setSelectedVoice(voice);

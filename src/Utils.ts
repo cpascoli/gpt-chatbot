@@ -33,14 +33,10 @@ export const stopSpeaking = async (isGoogleSpeech, setReading) => {
 export const speak = async (isGoogleSpeech, language, text, setReading) => {
     stopSpeaking(isGoogleSpeech, setReading)
     if (isGoogleSpeech) {
-        console.log("google speek")
         await speechRequestAndPlay(text, language, setReading)
     } else {
-        console.log("react-tative speek")
         await Tts.stop();
-        // setReading(true)
         await Tts.speak(text);
-        // setReading(false)
     }
 }
 
@@ -48,10 +44,8 @@ export const speak = async (isGoogleSpeech, language, text, setReading) => {
 export const openAIRequest = async (prompt, isModeQA, setRequestInProgress) => {
 
     if (!OPEN_AI_API_KEY) {
-        console.error("OPEN_AI_API_KEY not found! ", OPEN_AI_API_KEY)
+        console.error("Misisng OPEN_AI_API_KEY", OPEN_AI_API_KEY)
         return
-    } else {
-        console.log("OPEN_AI_API_KEY found: ", OPEN_AI_API_KEY)
     }
 
 
@@ -79,8 +73,6 @@ export const openAIRequest = async (prompt, isModeQA, setRequestInProgress) => {
             body: JSON.stringify(request),
         }
 
-        console.log("requestJson: ", requestJson)
-
         setRequestInProgress(true);
         let response = await fetch(OPEN_AI_URL, requestJson );
 
@@ -89,7 +81,6 @@ export const openAIRequest = async (prompt, isModeQA, setRequestInProgress) => {
         let responseJson = await response.json();
         if (responseJson.error && responseJson.error.message) {
             console.error(responseJson.error.message)
-            console.log("responseJson: ", responseJson.error)
         }
 
         const reply = responseJson.choices && responseJson.choices.length > 0 ? responseJson.choices[0].text : ''
@@ -111,14 +102,11 @@ export const openAIRequest = async (prompt, isModeQA, setRequestInProgress) => {
 const speechRequestAndPlay = async (text, language, setReading) => {
 
     if (!GOOGLE_API_KEY) {
-        console.error("GOOGLE_API_KEY is ", GOOGLE_API_KEY)
+        console.error("Missing GOOGLE_API_KEY", GOOGLE_API_KEY)
         return
-    } else {
-        console.log("GOOGLE_API_KEY is ", GOOGLE_API_KEY)
     }
 
     const speechRequestURL = `${GOOGLE_API_URL}?key=${GOOGLE_API_KEY}`
-    console.log("speechRequestAndPlay", speechRequestURL)
 
     const request = {
           input: {
@@ -150,9 +138,6 @@ const speechRequestAndPlay = async (text, language, setReading) => {
 
         const result = await response.json()
       
-        console.log("path", path)
-        // console.log(result)
-
         await createFile(path, result.audioContent)
         playSpeech(path, setReading)
 
@@ -175,8 +160,6 @@ const createFile = async (path, data) => {
 
 const playSpeech = (path, setReading) => {
 
-    console.log("playSpeech", path)
-
     if (speech && speech.isPlaying()) {
         speech.stop()
     }
@@ -193,7 +176,6 @@ const playSpeech = (path, setReading) => {
             if (!success) {
                 console.warn('playback failed due to audio decoding errors')
             }
-            console.warn('finished reading!')
             setReading(false)
         })
         
