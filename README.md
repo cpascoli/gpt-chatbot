@@ -1,17 +1,19 @@
-# gpt-chatbot
-A React native app to talk to GPT-3.
+# GPT3 ChatBot
 
-The basic workflow is the following:
-`Speech to Text => GPT-3 completiopn request => Text to Speech `
+A React native app to talk to GPT-3 on your iOS or Android device.
+Builds and runs on iOS simulator and iOS devices (Untested on Android)
 
 Uses: 
-- `React Native Voice` for Speech to Text
-- `React Native TTS` or `Google Cloud Text-to-Speech ` for Text to Speech
+- *React Native Voice* for speech to text.
+- *React Native TTS* or *Google Cloud Text-to-Speech * for text to speech.
+
+The basic workflow is the following:
+
+`Speech to Text => GPT-3 completiopn request => Text to Speech`
 
 
-Build and runs on iOS simulator and iOS devices. Untested on Android.
+# Main features
 
-Main features: 
 - Dual language supports (English and italian)
 - Support React native or Google Cloud text to speech.
 - Support for open-ai chat and Q&A completions modes.
@@ -19,8 +21,8 @@ Main features:
 
 # Prerequisites
 
-- XCode 
-- add `.env` file with the following API keys:
+- Install XCode with command line utils
+- Add `.env` file with the following API keys:
 
 ```
 OPEN_AI_API_KEY=<Your OpenAI API key>
@@ -35,7 +37,7 @@ npx pod-install
 
 ```
 
-# Run iOS Simulator
+# Run on iOS Simulator
 
 ```
 npx react-native run-ios
