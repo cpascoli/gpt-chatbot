@@ -328,7 +328,7 @@ export const HomeScreen = () => {
                     </TouchableOpacity> */}
 
 
-                    <Text style={styles.sliderLabel} style={{ marginTop: 100 }} >
+                    <Text style={styles.sliderLabel} >
                         Select the Voice from below
                     </Text>
                     <FlatList
